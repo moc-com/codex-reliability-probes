@@ -1,0 +1,2 @@
+strategy	turns	total	strict_pass	semantic_pass	strict_rate_pct	semantic_rate_pct	guard_stop_count	avg_duration_sec
+snapshot	100	1	1	1	100.0	100.0	0	1041.0

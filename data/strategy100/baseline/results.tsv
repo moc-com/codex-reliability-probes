@@ -1,0 +1,2 @@
+ts	strategy	turns	trial	duration_sec	init_ec	final_ec	strict_pass	semantic_pass	fail_stage	fail_turn	expected_final	actual_final	thread_id	note	guard_triggered	guard_metric	guard_threshold	guard_observed
+2026-02-11T08:08:33Z	baseline	100	1	340	0	0	false	false	mid_turn	29	FR_baseline_100_1_20260211T080833Z		019c4bbe-b843-7a11-b898-1cf54ec72d37	turn_29_semantic_mismatch_or_timeout	false			

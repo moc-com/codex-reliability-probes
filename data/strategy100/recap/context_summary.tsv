@@ -1,0 +1,2 @@
+strategy	turns	total_final_turns	avg_final_input_tokens	avg_final_cached_input_tokens	avg_final_output_tokens	avg_final_delta_input_tokens
+recap	100	1	17961775.0	16366464.0	4135.0	179089.0

@@ -1,0 +1,2 @@
+ts	strategy	turns	trial	duration_sec	init_ec	final_ec	strict_pass	semantic_pass	fail_stage	fail_turn	expected_final	actual_final	thread_id	note	guard_triggered	guard_metric	guard_threshold	guard_observed
+2026-02-11T08:14:33Z	recap	100	1	1127	0	0	true	true	none	0	FR_recap_100_1_20260211T081433Z	FR_recap_100_1_20260211T081433Z	019c4bc4-38b2-75f3-b2f8-cbdb155a4815	ok	false			

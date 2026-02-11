@@ -1,0 +1,16 @@
+generated_at_utc=2026-02-11T08:08:33Z
+root=REDACTED_LOCAL_PATH
+out_dir=artifacts/reports/codex-strategy100-baseline-20260211T080832Z
+plan=100x1
+strategy=baseline
+recap_interval=10
+snapshot_interval=10
+init_lines=90
+turn_lines=50
+timeout_init_sec=180
+timeout_turn_sec=180
+max_input_tokens=20000000
+max_delta_input_tokens=300000
+stop_on_guard=true
+model=default_from_codex_config
+codex_version=codex-cli 0.98.0

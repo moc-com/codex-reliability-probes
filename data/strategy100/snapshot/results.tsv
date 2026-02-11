@@ -1,0 +1,2 @@
+ts	strategy	turns	trial	duration_sec	init_ec	final_ec	strict_pass	semantic_pass	fail_stage	fail_turn	expected_final	actual_final	thread_id	note	guard_triggered	guard_metric	guard_threshold	guard_observed
+2026-02-11T08:33:27Z	snapshot	100	1	1041	0	0	true	true	none	0	FR_snapshot_100_1_20260211T083327Z	FR_snapshot_100_1_20260211T083327Z	019c4be3-c9c7-7c91-b442-214195729523	ok	false			
