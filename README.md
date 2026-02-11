@@ -13,7 +13,6 @@ This repository shares reproducible reliability probe artifacts on `gpt-5.3-code
 
 ![100-turn strategy bar dashboard](assets/figures/strategy100_bar_dashboard_20260211.png)
 ![100-turn strategy comparison](assets/figures/strategy100_comparison_20260211.png)
-![100-turn strategy impact dashboard](assets/figures/strategy100_dashboard_20260211.svg)
 
 ## New Strategy-100 Dataset (baseline vs recap vs snapshot)
 
