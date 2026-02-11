@@ -13,6 +13,7 @@ This repository shares reproducible reliability probe artifacts on `gpt-5.3-code
 
 ![100-turn strategy bar dashboard](assets/figures/strategy100_bar_dashboard_20260211.png)
 ![100-turn strategy comparison](assets/figures/strategy100_comparison_20260211.png)
+![100-turn context growth line chart](assets/figures/strategy100_context_growth_line_20260211.svg)
 
 ## New Strategy-100 Dataset (baseline vs recap vs snapshot)
 
@@ -62,6 +63,9 @@ scripts/codex_final_recall_probe.sh \
   --plan 100x1 \
   --max-input-tokens 20000000 \
   --max-delta-input-tokens 300000
+
+# render line chart from raw per_turn.tsv
+python3 scripts/render_strategy100_context_growth_line_svg.py
 
 ```
 
