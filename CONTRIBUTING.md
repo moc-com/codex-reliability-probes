@@ -43,3 +43,11 @@ python3 scripts/analyze_strategy_suite_v2.py \
 - Snapshot drift and compression-loss analysis
 - Cost/latency/throughput trade-off characterization
 - Robustness under distractors and requirement churn
+
+## Resource Note
+
+Large repetition plans are expensive in practice.
+Contributors are encouraged to:
+- Share partial batches (for example `n=3` or `n=5`) with complete logs.
+- Coordinate across contributors to reach `n>=10` or `n>=30` cumulatively.
+- Clearly document compute limits and stopping reasons in PR descriptions.

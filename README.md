@@ -16,6 +16,7 @@ This repository shares reproducible reliability probe artifacts on `gpt-5.3-code
 - `reports/codex-strategy100-execution-report-20260211.md`
 - `reports/v1-freeze-handoff-20260212.md`
 - `reports/v2-experiment-plan-template.md`
+- `reports/community-support-call-20260212.md`
 
 ## Figure
 
@@ -53,6 +54,26 @@ Cost signal from this run:
 - The task family is controlled and narrow (exact-match oriented), not a universal coding benchmark.
 - Pricing, throughput under concurrency, and rate-limit stress are not fully benchmarked in v1.
 - Causal claims about *why* failures happen are out of scope for v1.
+
+## Feasibility Reality (Why this is community-driven)
+
+Based on the current `strategy100` per-turn logs (single run per strategy), rough input-token totals are:
+
+- Per run:
+  - `baseline`: `43,305,760`
+  - `recap`: `814,865,016`
+  - `snapshot`: `22,194,832`
+- If repeated at `n=10` (baseline+recap+snapshot): about `8,803,656,080` input tokens total.
+- If repeated at `n=30` (baseline+recap+snapshot): about `26,410,968,240` input tokens total.
+
+Interpretation:
+- This scale is not realistic for a single maintainer to run repeatedly under normal constraints.
+- Therefore this repository explicitly shifts to **community-supported continuation** for high-power runs.
+
+How to help:
+- Contribute compute-backed reruns with full raw logs.
+- Contribute analysis PRs (CI/survival/cost/drift).
+- Contribute independent replications using the same protocol.
 
 ## Community Roadmap (v2+)
 

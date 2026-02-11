@@ -37,3 +37,4 @@ Rationale:
 
 - Accept additive PRs that improve statistical rigor and external validity.
 - Prioritize reproducibility and transparent limitations over larger headline numbers.
+- Treat large-scale repetition (`n>=10` to `n>=30` across strategies) as community-supported work, not maintainer-only work.
