@@ -22,7 +22,7 @@ OUT = ROOT / "assets" / "figures" / "strategy100_context_growth_line_20260211.sv
 
 WIDTH = 1600
 HEIGHT = 980
-LEFT = 120
+LEFT = 180
 RIGHT = 80
 TOP = 130
 BOTTOM = 190
@@ -78,19 +78,7 @@ def build_svg() -> str:
     y_max = max(20_000_000, 10 ** int(math.ceil(math.log10(y_max_data))))
 
     # Geometric tick sequence gives readable log-grid labels.
-    ticks = [
-        10_000,
-        20_000,
-        50_000,
-        100_000,
-        200_000,
-        500_000,
-        1_000_000,
-        2_000_000,
-        5_000_000,
-        10_000_000,
-        20_000_000,
-    ]
+    ticks = [10_000, 100_000, 1_000_000, 10_000_000, 20_000_000]
 
     def poly(points: list[tuple[int, int]]) -> str:
         return " ".join(
@@ -193,8 +181,8 @@ def build_svg() -> str:
         "</text>"
     )
     lines.append(
-        f'<text x="44" y="{TOP + PLOT_H / 2:.2f}" text-anchor="middle" '
-        'transform="rotate(-90 44 '
+        f'<text x="30" y="{TOP + PLOT_H / 2:.2f}" text-anchor="middle" '
+        'transform="rotate(-90 30 '
         f'{TOP + PLOT_H / 2:.2f})" font-family="Arial, Helvetica, sans-serif" '
         'font-size="28" fill="#111827">'
         "input_tokens"
@@ -304,4 +292,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
