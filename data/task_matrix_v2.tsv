@@ -1,0 +1,6 @@
+task_id	category	scenario	description	primary_endpoint	notes
+TM1	baseline_memory	single_recall	Exact final token recall after deterministic ACK chain	final_recall_match	Core controlled reliability probe
+TM2	task_interference	multi_task	ACK with rotating task tags to test cross-task interference	final_recall_match_and_midturn_consistency	Simulates mixed workflow threads
+TM3	requirement_update	requirement_churn	Mid-run spec change switches final target token to alternate token	final_recall_uses_latest_spec	Tests spec-change handling and stale-memory risk
+TM4	noisy_context	multi_task	Inject distractor-like content while preserving strict expected string	mid_turn_match_rate	Use additive noise only; keep deterministic judgment
+TM5	snapshot_drift	single_recall	Snapshot reset every N turns; compare boundary mismatch proxies	snapshot_boundary_mismatch_rate	Proxy for compression-loss/drift follow-up

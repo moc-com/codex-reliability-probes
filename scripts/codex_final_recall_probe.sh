@@ -6,7 +6,7 @@ usage() {
 Deterministic strict final-recall probe for Codex CLI.
 
 Usage:
-  scripts/ops/codex_final_recall_probe.sh [options]
+  scripts/codex_final_recall_probe.sh [options]
 
 Options:
   --root PATH                 Project root where codex exec is run (default: git root)
@@ -21,6 +21,11 @@ Options:
   --timeout-turn-sec N        Timeout for turns >=1 (default: 180)
   --model MODEL               Optional model override via codex -c model=...
   --reasoning-effort LEVEL    Optional override via codex -c model_reasoning_effort=...
+  --set KEY=VALUE             Additional codex -c override (repeatable)
+  --require-explicit-model true|false
+                              Fail fast when --model is not explicitly provided (default: false)
+  --scenario NAME             single_recall | multi_task | requirement_churn (default: single_recall)
+  --churn-turn N              Turn index to switch required final token when scenario=requirement_churn
   --max-input-tokens N        Guard threshold per turn (default: 30000000, <=0 to disable)
   --max-delta-input-tokens N  Guard threshold for per-turn delta (default: 1500000, <=0 to disable)
   --stop-on-guard true|false  Stop remaining trials when guard is hit (default: true)
@@ -53,9 +58,13 @@ TIMEOUT_INIT_SEC=180
 TIMEOUT_TURN_SEC=180
 MODEL=""
 REASONING_EFFORT=""
+REQUIRE_EXPLICIT_MODEL="false"
+SCENARIO="single_recall"
+CHURN_TURN=-1
 MAX_INPUT_TOKENS=30000000
 MAX_DELTA_INPUT_TOKENS=1500000
 STOP_ON_GUARD="true"
+declare -a EXTRA_CONFIGS=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -107,6 +116,22 @@ while [[ $# -gt 0 ]]; do
       REASONING_EFFORT="$2"
       shift 2
       ;;
+    --set)
+      EXTRA_CONFIGS+=("$2")
+      shift 2
+      ;;
+    --require-explicit-model)
+      REQUIRE_EXPLICIT_MODEL="$2"
+      shift 2
+      ;;
+    --scenario)
+      SCENARIO="$2"
+      shift 2
+      ;;
+    --churn-turn)
+      CHURN_TURN="$2"
+      shift 2
+      ;;
     --max-input-tokens)
       MAX_INPUT_TOKENS="$2"
       shift 2
@@ -136,7 +161,12 @@ if [[ "$STRATEGY" != "baseline" && "$STRATEGY" != "recap" && "$STRATEGY" != "sna
   exit 2
 fi
 
-for v in INIT_LINES TURN_LINES TIMEOUT_INIT_SEC TIMEOUT_TURN_SEC RECAP_INTERVAL SNAPSHOT_INTERVAL MAX_INPUT_TOKENS MAX_DELTA_INPUT_TOKENS; do
+if [[ "$SCENARIO" != "single_recall" && "$SCENARIO" != "multi_task" && "$SCENARIO" != "requirement_churn" ]]; then
+  echo "[error] --scenario must be single_recall|multi_task|requirement_churn" >&2
+  exit 2
+fi
+
+for v in INIT_LINES TURN_LINES TIMEOUT_INIT_SEC TIMEOUT_TURN_SEC RECAP_INTERVAL SNAPSHOT_INTERVAL MAX_INPUT_TOKENS MAX_DELTA_INPUT_TOKENS CHURN_TURN; do
   if [[ ! "${!v}" =~ ^-?[0-9]+$ ]]; then
     echo "[error] ${v} must be integer" >&2
     exit 2
@@ -145,6 +175,16 @@ done
 
 if [[ "$STOP_ON_GUARD" != "true" && "$STOP_ON_GUARD" != "false" ]]; then
   echo "[error] --stop-on-guard must be true|false" >&2
+  exit 2
+fi
+
+if [[ "$REQUIRE_EXPLICIT_MODEL" != "true" && "$REQUIRE_EXPLICIT_MODEL" != "false" ]]; then
+  echo "[error] --require-explicit-model must be true|false" >&2
+  exit 2
+fi
+
+if [[ "$REQUIRE_EXPLICIT_MODEL" == "true" && -z "$MODEL" ]]; then
+  echo "[error] --require-explicit-model=true requires --model MODEL" >&2
   exit 2
 fi
 
@@ -168,7 +208,7 @@ CONTEXT_SUMMARY="$OUT_DIR/context_summary.tsv"
 MANIFEST="$OUT_DIR/manifest.txt"
 
 printf 'ts\tstrategy\tturns\ttrial\tduration_sec\tinit_ec\tfinal_ec\tstrict_pass\tsemantic_pass\tfail_stage\tfail_turn\texpected_final\tactual_final\tthread_id\tnote\tguard_triggered\tguard_metric\tguard_threshold\tguard_observed\n' > "$RESULTS"
-printf 'ts\tstrategy\tturns\ttrial\tturn_index\tis_final\texpected\tactual\texit_code\tcompleted\tinput_tokens\tcached_input_tokens\toutput_tokens\tdelta_input_tokens\tnote\tthread_id\n' > "$PER_TURN"
+printf 'ts\tstrategy\tturns\ttrial\tturn_index\tis_final\texpected\tactual\texit_code\tcompleted\tinput_tokens\tcached_input_tokens\toutput_tokens\tdelta_input_tokens\tnote\tthread_id\tcall_mode\tevent\n' > "$PER_TURN"
 
 CODEX_PREFIX=(codex)
 if [[ -n "$MODEL" ]]; then
@@ -177,6 +217,9 @@ fi
 if [[ -n "$REASONING_EFFORT" ]]; then
   CODEX_PREFIX+=(-c "model_reasoning_effort=${REASONING_EFFORT}")
 fi
+for cfg in "${EXTRA_CONFIGS[@]}"; do
+  CODEX_PREFIX+=(-c "$cfg")
+done
 
 GLOBAL_STOP="false"
 GLOBAL_STOP_REASON=""
@@ -216,6 +259,20 @@ run_trial() {
   mkdir -p "$run_dir"
 
   local token="FR_${STRATEGY}_${turns}_${trial}_$(date -u +%Y%m%dT%H%M%SZ)"
+  local token_alt="FR2_${STRATEGY}_${turns}_${trial}_$(date -u +%Y%m%dT%H%M%SZ)"
+  local final_target="$token"
+  local churn_turn_effective="$CHURN_TURN"
+  if [[ "$SCENARIO" == "requirement_churn" ]]; then
+    if (( churn_turn_effective < 1 || churn_turn_effective >= turns - 1 )); then
+      churn_turn_effective=$((turns / 2))
+      if (( churn_turn_effective < 1 )); then
+        churn_turn_effective=1
+      fi
+      if (( churn_turn_effective >= turns - 1 )); then
+        churn_turn_effective=$((turns - 2))
+      fi
+    fi
+  fi
   local init_ec=1
   local final_ec=1
   local strict_pass=true
@@ -223,7 +280,7 @@ run_trial() {
   local fail_stage=""
   local fail_turn="0"
   local note="ok"
-  local expected_final="$token"
+  local expected_final="$final_target"
   local actual_final=""
   local thread_id=""
   local prev_input=""
@@ -245,6 +302,15 @@ run_trial() {
     echo "Store the token and keep it through multiple turns."
     cat "$lb0"
     echo "TOKEN=${token}"
+    if [[ "$SCENARIO" == "multi_task" ]]; then
+      echo "SCENARIO=multi_task"
+      echo "Maintain exact task-tag format when asked."
+    fi
+    if [[ "$SCENARIO" == "requirement_churn" ]]; then
+      echo "SCENARIO=requirement_churn"
+      echo "Potential token update may appear later. Follow the latest explicit requirement."
+      echo "TOKEN_ALT=${token_alt}"
+    fi
     echo "Reply exactly STORED"
   } > "$p0"
 
@@ -264,9 +330,9 @@ run_trial() {
   [[ -z "$init_output" ]] && init_output=-1
   prev_input="$init_input"
 
-  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
     "$ts" "$STRATEGY" "$turns" "$trial" "0" "false" "STORED" "$init_msg" "$init_ec" \
-    "$([[ $init_ec -eq 0 ]] && echo true || echo false)" "$init_input" "$init_cached" "$init_output" "" "init_turn" "$thread_id" >> "$PER_TURN"
+    "$([[ $init_ec -eq 0 ]] && echo true || echo false)" "$init_input" "$init_cached" "$init_output" "" "init_turn" "$thread_id" "new" "init" >> "$PER_TURN"
 
   if [[ "$init_ec" -ne 0 || -z "$thread_id" || "$thread_id" == "null" ]]; then
     strict_pass=false
@@ -293,13 +359,23 @@ run_trial() {
       local et="$run_dir/turn_$(printf '%03d' "$t").err"
       local expected actual prompt_inline ec completed usage_in usage_cached usage_out delta note_turn is_final
       local call_mode="resume"
+      local event="none"
 
       long_block "$TURN_LINES" "$lbt"
       is_final="false"
       if [[ "$t" -lt $((turns - 1)) ]]; then
-        expected="ACK_${t}"
+        if [[ "$SCENARIO" == "multi_task" ]]; then
+          local task_tag="TASK_$((((t - 1) % 3) + 1))"
+          expected="ACK_${t}|${task_tag}"
+        else
+          expected="ACK_${t}"
+        fi
       else
-        expected="$token"
+        if [[ "$SCENARIO" == "requirement_churn" ]]; then
+          expected="$final_target"
+        else
+          expected="$token"
+        fi
         is_final="true"
       fi
 
@@ -312,23 +388,52 @@ run_trial() {
         cat "$lbt"
 
         if [[ "$STRATEGY" == "recap" && "$is_final" == "false" && $((t % RECAP_INTERVAL)) -eq 0 ]]; then
+          event="recap_injected"
           echo "RECAP_ORIGINAL_TOKEN=${token}"
           if (( t > 1 )); then
             echo "RECAP_LAST_ACK=ACK_$((t-1))"
+          fi
+          if [[ "$SCENARIO" == "multi_task" ]]; then
+            local prev_task="TASK_$((((t - 2) % 3) + 1))"
+            echo "RECAP_LAST_TAG=${prev_task}"
           fi
         fi
 
         if [[ "$STRATEGY" == "snapshot" && ( "$t" -eq 1 || $(((t - 1) % SNAPSHOT_INTERVAL)) -eq 0 ) ]]; then
           call_mode="new"
+          if [[ "$event" == "none" ]]; then
+            event="snapshot_reset"
+          else
+            event="${event};snapshot_reset"
+          fi
           echo "SNAPSHOT_MODE=on"
           echo "SNAPSHOT_ORIGINAL_TOKEN=${token}"
           if (( t > 1 )); then
             echo "SNAPSHOT_LAST_ACK=ACK_$((t-1))"
           fi
+          if [[ "$SCENARIO" == "multi_task" && $t -gt 1 ]]; then
+            local prev_task="TASK_$((((t - 2) % 3) + 1))"
+            echo "SNAPSHOT_LAST_TAG=${prev_task}"
+          fi
+        fi
+
+        if [[ "$SCENARIO" == "requirement_churn" && "$is_final" == "false" && "$t" -eq "$churn_turn_effective" ]]; then
+          final_target="$token_alt"
+          if [[ "$event" == "none" ]]; then
+            event="requirement_churn"
+          else
+            event="${event};requirement_churn"
+          fi
+          echo "SPEC_CHANGE: Final token target is now TOKEN_ALT=${token_alt}"
+          echo "The previous TOKEN is obsolete for final recall."
         fi
 
         if [[ "$is_final" == "true" ]]; then
-          echo "Return exactly TOKEN value only"
+          if [[ "$SCENARIO" == "requirement_churn" ]]; then
+            echo "Return exactly the latest active token value only"
+          else
+            echo "Return exactly TOKEN value only"
+          fi
         else
           echo "Reply exactly ${expected}"
         fi
@@ -375,9 +480,9 @@ run_trial() {
         note_turn="nonzero_exit"
       fi
 
-      printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+      printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
         "$ts" "$STRATEGY" "$turns" "$trial" "$t" "$is_final" "$expected" "$actual" "$ec" "$completed" \
-        "$usage_in" "$usage_cached" "$usage_out" "$delta" "$note_turn" "$thread_id" >> "$PER_TURN"
+        "$usage_in" "$usage_cached" "$usage_out" "$delta" "$note_turn" "$thread_id" "$call_mode" "$event" >> "$PER_TURN"
 
       if [[ "$actual" != "$expected" ]]; then
         strict_pass=false
@@ -440,6 +545,7 @@ run_trial() {
     fail_stage="none"
     fail_turn="0"
   fi
+  expected_final="$final_target"
 
   end=$(date +%s)
   dur=$((end - start))
@@ -456,7 +562,11 @@ run_trial() {
   echo "root=${ROOT}"
   echo "out_dir=${OUT_DIR}"
   echo "plan=${PLAN_SPEC}"
+  echo "probe_version=2026-02-v2"
+  echo "git_revision=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo unknown)"
   echo "strategy=${STRATEGY}"
+  echo "scenario=${SCENARIO}"
+  echo "churn_turn=${CHURN_TURN}"
   echo "recap_interval=${RECAP_INTERVAL}"
   echo "snapshot_interval=${SNAPSHOT_INTERVAL}"
   echo "init_lines=${INIT_LINES}"
@@ -473,6 +583,12 @@ run_trial() {
   fi
   if [[ -n "$REASONING_EFFORT" ]]; then
     echo "reasoning_effort=${REASONING_EFFORT}"
+  fi
+  echo "require_explicit_model=${REQUIRE_EXPLICIT_MODEL}"
+  if [[ "${#EXTRA_CONFIGS[@]}" -gt 0 ]]; then
+    printf 'codex_overrides=%s\n' "$(IFS=';'; echo "${EXTRA_CONFIGS[*]}")"
+  else
+    echo "codex_overrides="
   fi
   echo "codex_version=$("${CODEX_PREFIX[@]}" --version 2>/dev/null || echo unknown)"
 } > "$MANIFEST"

@@ -2,12 +2,20 @@
 
 This repository shares reproducible reliability probe artifacts on `gpt-5.3-codex`.
 
+## Status
+
+- Current status: **v1 frozen** (2026-02-12).
+- Maintainer policy from this point: no large new benchmark sweeps by default.
+- Next phase is community-driven extension under explicit reproducibility rules.
+
 ## Reports
 
 - `reports/report_codex_benchmark_20260211_singlefile_full_30k.md` (Japanese)
 - `reports/report_codex_benchmark_20260211_singlefile_full_30k_en.md` (English)
 - `reports/codex-turn-budget-decision-20260211.md`
 - `reports/codex-strategy100-execution-report-20260211.md`
+- `reports/v1-freeze-handoff-20260212.md`
+- `reports/v2-experiment-plan-template.md`
 
 ## Figure
 
@@ -21,6 +29,7 @@ Raw outputs:
 - `data/strategy100/baseline/`
 - `data/strategy100/recap/`
 - `data/strategy100/snapshot/`
+- `data/task_matrix_v2.tsv` (v2 external-validity task matrix)
 
 Runner:
 - `scripts/codex_final_recall_probe.sh`
@@ -37,6 +46,29 @@ Cost signal from this run:
 - `recap` final-turn `input_tokens`: `17,961,775`
 - `snapshot` final-turn `input_tokens`: `440,459`
 - `snapshot` context footprint was about `40.8x` smaller than `recap` at final turn.
+
+## Limitations (v1)
+
+- Statistical power is limited in `strategy100` (single trial per strategy).
+- The task family is controlled and narrow (exact-match oriented), not a universal coding benchmark.
+- Pricing, throughput under concurrency, and rate-limit stress are not fully benchmarked in v1.
+- Causal claims about *why* failures happen are out of scope for v1.
+
+## Community Roadmap (v2+)
+
+1. Increase repetition (`n>=10` per condition) and publish confidence intervals + survival analysis.
+2. Add explicit model/runtime parameter capture and lock policies in manifests.
+3. Add cost conversion (`USD/run`) and throughput/rate-limit metrics.
+4. Add drift-focused evaluation for snapshot compression loss.
+5. Add broader external-validity scenarios (multi-task interference, requirement churn).
+
+Reference utilities prepared for this roadmap:
+- `scripts/codex_final_recall_probe.sh` (scenario/event metadata support)
+- `scripts/analyze_strategy_suite_v2.py` (CI/survival/cost-throughput/drift summaries)
+
+## Contributing
+
+Please read `CONTRIBUTING.md` before opening a PR.
 
 ## Reproduce (CLI)
 
