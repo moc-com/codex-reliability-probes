@@ -9,6 +9,10 @@ This repository shares reproducible reliability probe artifacts on `gpt-5.3-code
 - `reports/codex-turn-budget-decision-20260211.md`
 - `reports/codex-strategy100-execution-report-20260211.md`
 
+## Figure
+
+![100-turn strategy comparison](assets/figures/strategy100_comparison_20260211.png)
+
 ## New Strategy-100 Dataset (baseline vs recap vs snapshot)
 
 Raw outputs:
