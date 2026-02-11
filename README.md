@@ -11,7 +11,9 @@ This repository shares reproducible reliability probe artifacts on `gpt-5.3-code
 
 ## Figure
 
+![100-turn strategy bar dashboard](assets/figures/strategy100_bar_dashboard_20260211.png)
 ![100-turn strategy comparison](assets/figures/strategy100_comparison_20260211.png)
+![100-turn strategy impact dashboard](assets/figures/strategy100_dashboard_20260211.svg)
 
 ## New Strategy-100 Dataset (baseline vs recap vs snapshot)
 
@@ -68,6 +70,40 @@ scripts/codex_final_recall_probe.sh \
 - Recommended validation set: `baseline@100`, `recap@100`, `snapshot@100`.
 - Routine stop-line: `<=100 turns`.
 - For routine operation, avoid `>100` unless running an explicit budget-approved stress test.
+
+## What This Is (Why It Matters)
+
+- This is a controlled reliability probe for long-turn operation, not a general coding benchmark.
+- The core question is: which orchestration pattern preserves exact recall while controlling context cost?
+- Main outcome from this dataset:
+  - `baseline` failed early (turn 29).
+  - `recap` and `snapshot` both reached 100 turns.
+  - `snapshot` achieved the same reliability with dramatically lower context footprint.
+
+## Model/Workflow Improvement Levers
+
+If the goal is higher real-world reliability per token budget, prioritize these levers:
+
+1. Thread segmentation by design (`snapshot` pattern)
+- Reset thread state every fixed interval (for example every 10 turns).
+- Carry only compact state forward (token/checkpoint + required constraints).
+- This directly controls context growth and reduces late-turn instability.
+
+2. Periodic memory anchoring (`recap` pattern)
+- Re-state critical invariants at fixed cadence.
+- Useful when single-thread continuity is required, but expect higher token cost than snapshot.
+
+3. Hard budget guardrails
+- Stop or rotate strategy when `input_tokens` or per-turn delta exceeds threshold.
+- Treat guardrails as part of correctness, not only cost control.
+
+4. Failure-type-aware QA
+- Separate `mid_turn` failures from `final_recall` failures.
+- Different failure types require different mitigations (state reset, recap cadence, prompt tightening).
+
+5. Increase statistical confidence
+- Current run count is intentionally small.
+- Recommended next step: repeat each strategy with `n>=5` (or `n>=10`) and publish confidence intervals.
 
 ## Notes
 
