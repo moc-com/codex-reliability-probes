@@ -20,12 +20,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_ROOT = ROOT / "data" / "strategy100"
 OUT = ROOT / "assets" / "figures" / "strategy100_context_growth_line_20260211.svg"
 
-WIDTH = 1600
-HEIGHT = 980
-LEFT = 180
-RIGHT = 80
-TOP = 130
-BOTTOM = 190
+WIDTH = 1800
+HEIGHT = 1100
+LEFT = 240
+RIGHT = 120
+TOP = 180
+BOTTOM = 320
 PLOT_W = WIDTH - LEFT - RIGHT
 PLOT_H = HEIGHT - TOP - BOTTOM
 
@@ -77,8 +77,8 @@ def build_svg() -> str:
     y_min = min(10_000, 10 ** int(math.floor(math.log10(y_min_data))))
     y_max = max(20_000_000, 10 ** int(math.ceil(math.log10(y_max_data))))
 
-    # Geometric tick sequence gives readable log-grid labels.
-    ticks = [10_000, 100_000, 1_000_000, 10_000_000, 20_000_000]
+    # Keep sparse ticks to avoid visual crowding.
+    ticks = [10_000, 50_000, 200_000, 1_000_000, 5_000_000, 20_000_000]
 
     def poly(points: list[tuple[int, int]]) -> str:
         return " ".join(
@@ -107,17 +107,33 @@ def build_svg() -> str:
 
     # Header
     lines.append(
-        '<text x="70" y="60" font-family="Arial, Helvetica, sans-serif" '
+        '<text x="80" y="66" font-family="Arial, Helvetica, sans-serif" '
         'font-size="52" font-weight="700" fill="#111827">'
         "100-Turn Context Growth: baseline vs recap vs snapshot"
         "</text>"
     )
     lines.append(
-        '<text x="70" y="100" font-family="Arial, Helvetica, sans-serif" '
+        '<text x="80" y="112" font-family="Arial, Helvetica, sans-serif" '
         'font-size="30" fill="#374151">'
         "input_tokens per turn (log scale)"
         "</text>"
     )
+
+    # Legend (above plot: fixed, non-overlapping area)
+    legend_y = 150
+    legend_x = LEFT + 10
+    for i, key in enumerate(("baseline", "recap", "snapshot")):
+        x0 = legend_x + i * 240
+        lines.append(
+            f'<line x1="{x0}" y1="{legend_y}" x2="{x0 + 54}" y2="{legend_y}" '
+            f'stroke="{COLORS[key]}" stroke-width="6" />'
+        )
+        lines.append(
+            f'<text x="{x0 + 66}" y="{legend_y + 8}" '
+            'font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1f2937">'
+            f"{escape(key)}"
+            "</text>"
+        )
 
     # Plot panel
     lines.append(
@@ -145,7 +161,7 @@ def build_svg() -> str:
             'stroke="#e5e7eb" stroke-width="1" />'
         )
         lines.append(
-            f'<text x="{LEFT - 14}" y="{y + 8:.2f}" text-anchor="end" '
+            f'<text x="{LEFT - 16}" y="{y + 8:.2f}" text-anchor="end" '
             'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">'
             f"{fmt_num(v)}"
             "</text>"
@@ -159,7 +175,7 @@ def build_svg() -> str:
             'stroke="#eef2f7" stroke-width="1" />'
         )
         lines.append(
-            f'<text x="{x:.2f}" y="{TOP + PLOT_H + 38}" text-anchor="middle" '
+            f'<text x="{x:.2f}" y="{TOP + PLOT_H + 40}" text-anchor="middle" '
             'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">'
             f"{t}"
             "</text>"
@@ -175,14 +191,14 @@ def build_svg() -> str:
         'stroke="#6b7280" stroke-width="2" />'
     )
     lines.append(
-        f'<text x="{LEFT + PLOT_W / 2:.2f}" y="{HEIGHT - 70}" text-anchor="middle" '
+        f'<text x="{LEFT + PLOT_W / 2:.2f}" y="{HEIGHT - 248}" text-anchor="middle" '
         'font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#111827">'
         "Turn (0-99)"
         "</text>"
     )
     lines.append(
-        f'<text x="30" y="{TOP + PLOT_H / 2:.2f}" text-anchor="middle" '
-        'transform="rotate(-90 30 '
+        f'<text x="70" y="{TOP + PLOT_H / 2:.2f}" text-anchor="middle" '
+        'transform="rotate(-90 70 '
         f'{TOP + PLOT_H / 2:.2f})" font-family="Arial, Helvetica, sans-serif" '
         'font-size="28" fill="#111827">'
         "input_tokens"
@@ -210,13 +226,13 @@ def build_svg() -> str:
         'stroke="#ef4444" stroke-width="2.5" stroke-dasharray="9,8" />'
     )
     lines.append(
-        f'<text x="{fail_x + 10:.2f}" y="{TOP + 38}" '
+        f'<text x="{fail_x + 12:.2f}" y="{TOP + 52}" '
         'font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#b91c1c">'
         "baseline failed at turn 29"
         "</text>"
     )
 
-    # Final point callouts.
+    # Final points (markers only; labels moved to metric cards below plot).
     recap_x, recap_y = x_px(99, x_max), y_px(recap[-1][1], y_min, y_max)
     snap_x, snap_y = x_px(99, x_max), y_px(snapshot[-1][1], y_min, y_max)
     lines.append(
@@ -225,48 +241,67 @@ def build_svg() -> str:
     lines.append(
         f'<circle cx="{snap_x:.2f}" cy="{snap_y:.2f}" r="6.5" fill="{COLORS["snapshot"]}" />'
     )
+
+    # Metric cards below plot (collision-free text area).
+    card_y = HEIGHT - 200
+    card_h = 76
+    card_w = 360
+    recap_card_x = LEFT + 80
+    snapshot_card_x = recap_card_x + card_w + 36
     lines.append(
-        f'<text x="{recap_x - 6:.2f}" y="{recap_y - 12:.2f}" text-anchor="end" '
+        f'<rect x="{recap_card_x}" y="{card_y}" width="{card_w}" height="{card_h}" rx="10" '
+        'fill="#fff7ed" stroke="#f39c12" stroke-width="2.5" />'
+    )
+    lines.append(
+        f'<text x="{recap_card_x + 20}" y="{card_y + 32}" '
         'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#92400e">'
-        f"recap final: {fmt_num(recap_final)}"
+        "recap final input_tokens"
         "</text>"
     )
     lines.append(
-        f'<text x="{snap_x - 6:.2f}" y="{snap_y - 12:.2f}" text-anchor="end" '
-        'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#166534">'
-        f"snapshot final: {fmt_num(snapshot_final)}"
+        f'<text x="{recap_card_x + 20}" y="{card_y + 60}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#78350f">'
+        f"{fmt_num(recap_final)}"
         "</text>"
     )
 
-    # Legend
-    legend_x = LEFT + PLOT_W - 360
-    legend_y = TOP + 32
-    for i, key in enumerate(("baseline", "recap", "snapshot")):
-        y = legend_y + i * 40
-        lines.append(
-            f'<line x1="{legend_x}" y1="{y}" x2="{legend_x + 54}" y2="{y}" '
-            f'stroke="{COLORS[key]}" stroke-width="5" />'
-        )
-        lines.append(
-            f'<text x="{legend_x + 66}" y="{y + 7}" '
-            'font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1f2937">'
-            f"{escape(key)}"
-            "</text>"
-        )
+    lines.append(
+        f'<rect x="{snapshot_card_x}" y="{card_y}" width="{card_w}" height="{card_h}" rx="10" '
+        'fill="#ecfdf5" stroke="#22c55e" stroke-width="2.5" />'
+    )
+    lines.append(
+        f'<text x="{snapshot_card_x + 20}" y="{card_y + 32}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#166534">'
+        "snapshot final input_tokens"
+        "</text>"
+    )
+    lines.append(
+        f'<text x="{snapshot_card_x + 20}" y="{card_y + 60}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#14532d">'
+        f"{fmt_num(snapshot_final)}"
+        "</text>"
+    )
 
     # Impact callout
     callout = f"snapshot uses ~{ratio:.1f}x fewer final input tokens than recap"
-    call_x = 355
-    call_y = HEIGHT - 146
-    call_w = 900
-    call_h = 78
+    call_x = snapshot_card_x + card_w + 36
+    call_y = card_y
+    call_w = 520
+    call_h = 76
     lines.append(
         f'<rect x="{call_x}" y="{call_y}" width="{call_w}" height="{call_h}" rx="12" '
         'fill="#fff7ed" stroke="#f59e0b" stroke-width="3" />'
     )
     lines.append(
-        f'<text x="{call_x + call_w / 2:.2f}" y="{call_y + 49}" text-anchor="middle" '
-        'font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" '
+        f'<text x="{call_x + 24:.2f}" y="{call_y + 33}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" '
+        'fill="#1f2937">'
+        "impact"
+        "</text>"
+    )
+    lines.append(
+        f'<text x="{call_x + 24:.2f}" y="{call_y + 61}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" '
         'fill="#1f2937">'
         f"{escape(callout)}"
         "</text>"
@@ -274,8 +309,8 @@ def build_svg() -> str:
 
     # Footer
     lines.append(
-        f'<text x="70" y="{HEIGHT - 18}" '
-        'font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#6b7280">'
+        f'<text x="80" y="{HEIGHT - 26}" '
+        'font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#6b7280">'
         "Source: moc-com/codex-reliability-probes / data/strategy100/**/per_turn.tsv"
         "</text>"
     )

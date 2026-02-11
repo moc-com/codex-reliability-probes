@@ -3,63 +3,51 @@
 <rect x="0" y="0" width="100%" height="100%" fill="url(#bg)" />
 <text x="70" y="60" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#111827">100-Turn Context Growth: baseline vs recap vs snapshot</text>
 <text x="70" y="100" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#374151">input_tokens per turn (log scale)</text>
-<rect x="120" y="130" width="1400" height="660" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" rx="8" />
-<rect x="261.41" y="130" width="141.41" height="660" fill="#ecfdf5" opacity="0.45" />
-<rect x="544.24" y="130" width="141.41" height="660" fill="#ecfdf5" opacity="0.45" />
-<rect x="827.07" y="130" width="141.41" height="660" fill="#ecfdf5" opacity="0.45" />
-<rect x="1109.90" y="130" width="141.41" height="660" fill="#ecfdf5" opacity="0.45" />
-<rect x="1392.73" y="130" width="127.27" height="660" fill="#ecfdf5" opacity="0.45" />
-<line x1="120" y1="790.00" x2="1520" y2="790.00" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="798.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10,000</text>
-<line x1="120" y1="740.33" x2="1520" y2="740.33" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="748.33" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">20,000</text>
-<line x1="120" y1="674.67" x2="1520" y2="674.67" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="682.67" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">50,000</text>
-<line x1="120" y1="625.00" x2="1520" y2="625.00" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="633.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">100,000</text>
-<line x1="120" y1="575.33" x2="1520" y2="575.33" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="583.33" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">200,000</text>
-<line x1="120" y1="509.67" x2="1520" y2="509.67" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="517.67" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">500,000</text>
-<line x1="120" y1="460.00" x2="1520" y2="460.00" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="468.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">1,000,000</text>
-<line x1="120" y1="410.33" x2="1520" y2="410.33" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="418.33" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">2,000,000</text>
-<line x1="120" y1="344.67" x2="1520" y2="344.67" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="352.67" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">5,000,000</text>
-<line x1="120" y1="295.00" x2="1520" y2="295.00" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="303.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10,000,000</text>
-<line x1="120" y1="245.33" x2="1520" y2="245.33" stroke="#e5e7eb" stroke-width="1" />
-<text x="106" y="253.33" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">20,000,000</text>
-<line x1="120.00" y1="130" x2="120.00" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="120.00" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">0</text>
-<line x1="261.41" y1="130" x2="261.41" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="261.41" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10</text>
-<line x1="402.83" y1="130" x2="402.83" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="402.83" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">20</text>
-<line x1="544.24" y1="130" x2="544.24" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="544.24" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">30</text>
-<line x1="685.66" y1="130" x2="685.66" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="685.66" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">40</text>
-<line x1="827.07" y1="130" x2="827.07" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="827.07" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">50</text>
-<line x1="968.48" y1="130" x2="968.48" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="968.48" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">60</text>
-<line x1="1109.90" y1="130" x2="1109.90" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="1109.90" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">70</text>
-<line x1="1251.31" y1="130" x2="1251.31" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="1251.31" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">80</text>
-<line x1="1392.73" y1="130" x2="1392.73" y2="790" stroke="#eef2f7" stroke-width="1" />
-<text x="1392.73" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">90</text>
-<line x1="120" y1="790" x2="1520" y2="790" stroke="#6b7280" stroke-width="2" />
-<line x1="120" y1="130" x2="120" y2="790" stroke="#6b7280" stroke-width="2" />
-<text x="820.00" y="910" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#111827">Turn (0-99)</text>
-<text x="44" y="460.00" text-anchor="middle" transform="rotate(-90 44 460.00)" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#111827">input_tokens</text>
-<polyline points="120.00,743.69 134.14,680.91 148.28,640.78 162.42,610.58 176.57,586.13 190.71,565.50 204.85,547.61 218.99,531.80 233.13,517.62 247.27,504.75 261.41,492.97 275.56,482.10 289.70,472.02 303.84,462.61 317.98,453.79 332.12,445.48 346.26,437.64 360.40,430.21 374.55,423.15 388.69,416.42 402.83,410.00 416.97,403.85 431.11,397.96 445.25,392.30 459.39,386.86 473.54,381.62 487.68,376.56 501.82,371.68 515.96,366.96 530.10,362.39" fill="none" stroke="#e74c3c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-<polyline points="120.00,743.69 134.14,680.91 148.28,640.78 162.42,610.58 176.57,586.13 190.71,565.50 204.85,547.61 218.99,531.80 233.13,517.62 247.27,504.75 261.41,492.97 275.56,482.10 289.70,472.01 303.84,462.60 317.98,453.78 332.12,445.47 346.26,437.63 360.40,430.20 374.55,423.14 388.69,416.41 402.83,409.98 416.97,403.84 431.11,397.94 445.25,392.29 459.39,386.84 473.54,381.60 487.68,376.55 501.82,371.66 515.96,366.94 530.10,362.37 544.24,357.95 558.38,355.30 572.53,352.63 586.67,349.93 600.81,347.22 614.95,344.50 629.09,341.77 643.23,339.04 657.37,336.32 671.52,333.60 685.66,330.88 699.80,328.18 713.94,325.50 728.08,322.82 742.22,321.19 756.36,319.52 770.51,317.81 784.65,316.07 798.79,314.30 812.93,312.50 827.07,310.67 841.21,308.83 855.35,306.96 869.49,305.08 883.64,303.19 897.78,301.28 911.92,299.37 926.06,298.19 940.20,296.97 954.34,295.72 968.48,294.43 982.63,293.12 996.77,291.77 1010.91,290.40 1025.05,289.00 1039.19,287.58 1053.33,286.14 1067.47,284.68 1081.62,283.21 1095.76,281.71 1109.90,280.79 1124.04,279.83 1138.18,278.85 1152.32,277.83 1166.46,276.78 1180.61,275.71 1194.75,274.61 1208.89,273.49 1223.03,272.35 1237.17,271.18 1251.31,269.99 1265.45,268.79 1279.60,267.57 1293.74,266.81 1307.88,266.02 1322.02,265.21 1336.16,264.36 1350.30,263.50 1364.44,262.60 1378.59,261.69 1392.73,260.75 1406.87,259.79 1421.01,258.81 1435.15,257.81 1449.29,256.79 1463.43,255.76 1477.58,255.11 1491.72,254.44 1505.86,253.75 1520.00,253.03" fill="none" stroke="#f39c12" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-<polyline points="120.00,743.69 134.14,746.73 148.28,683.44 162.42,642.94 176.57,612.46 190.71,587.80 204.85,567.00 218.99,548.98 233.13,533.05 247.27,518.77 261.41,505.82 275.56,746.70 289.70,683.41 303.84,642.91 317.98,612.44 332.12,587.78 346.26,566.99 360.40,548.96 374.55,533.04 388.69,518.76 402.83,505.81 416.97,746.70 431.11,683.41 445.25,642.91 459.39,612.44 473.54,587.78 487.68,566.99 501.82,548.96 515.96,533.04 530.10,518.76 544.24,505.81 558.38,746.70 572.53,683.41 586.67,642.91 600.81,612.44 614.95,587.78 629.09,566.99 643.23,548.96 657.37,533.04 671.52,518.76 685.66,505.81 699.80,746.70 713.94,683.41 728.08,642.91 742.22,612.44 756.36,587.78 770.51,566.99 784.65,548.96 798.79,533.04 812.93,518.76 827.07,505.81 841.21,746.70 855.35,683.41 869.49,642.91 883.64,612.44 897.78,587.78 911.92,566.99 926.06,548.96 940.20,533.04 954.34,518.76 968.48,505.81 982.63,746.70 996.77,683.41 1010.91,642.91 1025.05,612.44 1039.19,587.78 1053.33,566.99 1067.47,548.96 1081.62,533.04 1095.76,518.76 1109.90,505.81 1124.04,746.70 1138.18,683.41 1152.32,642.91 1166.46,612.44 1180.61,587.78 1194.75,566.99 1208.89,548.96 1223.03,533.04 1237.17,518.76 1251.31,505.81 1265.45,746.70 1279.60,683.41 1293.74,642.91 1307.88,612.44 1322.02,587.78 1336.16,566.99 1350.30,548.96 1364.44,533.04 1378.59,518.76 1392.73,505.81 1406.87,746.70 1421.01,683.41 1435.15,642.91 1449.29,612.44 1463.43,587.78 1477.58,566.99 1491.72,548.96 1505.86,533.04 1520.00,518.76" fill="none" stroke="#27ae60" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-<line x1="530.10" y1="130" x2="530.10" y2="790" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="9,8" />
-<text x="540.10" y="168" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#b91c1c">baseline failed at turn 29</text>
+<rect x="180" y="130" width="1340" height="660" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" rx="8" />
+<rect x="315.35" y="130" width="135.35" height="660" fill="#ecfdf5" opacity="0.45" />
+<rect x="586.06" y="130" width="135.35" height="660" fill="#ecfdf5" opacity="0.45" />
+<rect x="856.77" y="130" width="135.35" height="660" fill="#ecfdf5" opacity="0.45" />
+<rect x="1127.47" y="130" width="135.35" height="660" fill="#ecfdf5" opacity="0.45" />
+<rect x="1398.18" y="130" width="121.82" height="660" fill="#ecfdf5" opacity="0.45" />
+<line x1="180" y1="790.00" x2="1520" y2="790.00" stroke="#e5e7eb" stroke-width="1" />
+<text x="166" y="798.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10,000</text>
+<line x1="180" y1="625.00" x2="1520" y2="625.00" stroke="#e5e7eb" stroke-width="1" />
+<text x="166" y="633.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">100,000</text>
+<line x1="180" y1="460.00" x2="1520" y2="460.00" stroke="#e5e7eb" stroke-width="1" />
+<text x="166" y="468.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">1,000,000</text>
+<line x1="180" y1="295.00" x2="1520" y2="295.00" stroke="#e5e7eb" stroke-width="1" />
+<text x="166" y="303.00" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10,000,000</text>
+<line x1="180" y1="245.33" x2="1520" y2="245.33" stroke="#e5e7eb" stroke-width="1" />
+<text x="166" y="253.33" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">20,000,000</text>
+<line x1="180.00" y1="130" x2="180.00" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="180.00" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">0</text>
+<line x1="315.35" y1="130" x2="315.35" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="315.35" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">10</text>
+<line x1="450.71" y1="130" x2="450.71" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="450.71" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">20</text>
+<line x1="586.06" y1="130" x2="586.06" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="586.06" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">30</text>
+<line x1="721.41" y1="130" x2="721.41" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="721.41" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">40</text>
+<line x1="856.77" y1="130" x2="856.77" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="856.77" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">50</text>
+<line x1="992.12" y1="130" x2="992.12" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="992.12" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">60</text>
+<line x1="1127.47" y1="130" x2="1127.47" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="1127.47" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">70</text>
+<line x1="1262.83" y1="130" x2="1262.83" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="1262.83" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">80</text>
+<line x1="1398.18" y1="130" x2="1398.18" y2="790" stroke="#eef2f7" stroke-width="1" />
+<text x="1398.18" y="828" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#4b5563">90</text>
+<line x1="180" y1="790" x2="1520" y2="790" stroke="#6b7280" stroke-width="2" />
+<line x1="180" y1="130" x2="180" y2="790" stroke="#6b7280" stroke-width="2" />
+<text x="850.00" y="910" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#111827">Turn (0-99)</text>
+<text x="30" y="460.00" text-anchor="middle" transform="rotate(-90 30 460.00)" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#111827">input_tokens</text>
+<polyline points="180.00,743.69 193.54,680.91 207.07,640.78 220.61,610.58 234.14,586.13 247.68,565.50 261.21,547.61 274.75,531.80 288.28,517.62 301.82,504.75 315.35,492.97 328.89,482.10 342.42,472.02 355.96,462.61 369.49,453.79 383.03,445.48 396.57,437.64 410.10,430.21 423.64,423.15 437.17,416.42 450.71,410.00 464.24,403.85 477.78,397.96 491.31,392.30 504.85,386.86 518.38,381.62 531.92,376.56 545.45,371.68 558.99,366.96 572.53,362.39" fill="none" stroke="#e74c3c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+<polyline points="180.00,743.69 193.54,680.91 207.07,640.78 220.61,610.58 234.14,586.13 247.68,565.50 261.21,547.61 274.75,531.80 288.28,517.62 301.82,504.75 315.35,492.97 328.89,482.10 342.42,472.01 355.96,462.60 369.49,453.78 383.03,445.47 396.57,437.63 410.10,430.20 423.64,423.14 437.17,416.41 450.71,409.98 464.24,403.84 477.78,397.94 491.31,392.29 504.85,386.84 518.38,381.60 531.92,376.55 545.45,371.66 558.99,366.94 572.53,362.37 586.06,357.95 599.60,355.30 613.13,352.63 626.67,349.93 640.20,347.22 653.74,344.50 667.27,341.77 680.81,339.04 694.34,336.32 707.88,333.60 721.41,330.88 734.95,328.18 748.48,325.50 762.02,322.82 775.56,321.19 789.09,319.52 802.63,317.81 816.16,316.07 829.70,314.30 843.23,312.50 856.77,310.67 870.30,308.83 883.84,306.96 897.37,305.08 910.91,303.19 924.44,301.28 937.98,299.37 951.52,298.19 965.05,296.97 978.59,295.72 992.12,294.43 1005.66,293.12 1019.19,291.77 1032.73,290.40 1046.26,289.00 1059.80,287.58 1073.33,286.14 1086.87,284.68 1100.40,283.21 1113.94,281.71 1127.47,280.79 1141.01,279.83 1154.55,278.85 1168.08,277.83 1181.62,276.78 1195.15,275.71 1208.69,274.61 1222.22,273.49 1235.76,272.35 1249.29,271.18 1262.83,269.99 1276.36,268.79 1289.90,267.57 1303.43,266.81 1316.97,266.02 1330.51,265.21 1344.04,264.36 1357.58,263.50 1371.11,262.60 1384.65,261.69 1398.18,260.75 1411.72,259.79 1425.25,258.81 1438.79,257.81 1452.32,256.79 1465.86,255.76 1479.39,255.11 1492.93,254.44 1506.46,253.75 1520.00,253.03" fill="none" stroke="#f39c12" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+<polyline points="180.00,743.69 193.54,746.73 207.07,683.44 220.61,642.94 234.14,612.46 247.68,587.80 261.21,567.00 274.75,548.98 288.28,533.05 301.82,518.77 315.35,505.82 328.89,746.70 342.42,683.41 355.96,642.91 369.49,612.44 383.03,587.78 396.57,566.99 410.10,548.96 423.64,533.04 437.17,518.76 450.71,505.81 464.24,746.70 477.78,683.41 491.31,642.91 504.85,612.44 518.38,587.78 531.92,566.99 545.45,548.96 558.99,533.04 572.53,518.76 586.06,505.81 599.60,746.70 613.13,683.41 626.67,642.91 640.20,612.44 653.74,587.78 667.27,566.99 680.81,548.96 694.34,533.04 707.88,518.76 721.41,505.81 734.95,746.70 748.48,683.41 762.02,642.91 775.56,612.44 789.09,587.78 802.63,566.99 816.16,548.96 829.70,533.04 843.23,518.76 856.77,505.81 870.30,746.70 883.84,683.41 897.37,642.91 910.91,612.44 924.44,587.78 937.98,566.99 951.52,548.96 965.05,533.04 978.59,518.76 992.12,505.81 1005.66,746.70 1019.19,683.41 1032.73,642.91 1046.26,612.44 1059.80,587.78 1073.33,566.99 1086.87,548.96 1100.40,533.04 1113.94,518.76 1127.47,505.81 1141.01,746.70 1154.55,683.41 1168.08,642.91 1181.62,612.44 1195.15,587.78 1208.69,566.99 1222.22,548.96 1235.76,533.04 1249.29,518.76 1262.83,505.81 1276.36,746.70 1289.90,683.41 1303.43,642.91 1316.97,612.44 1330.51,587.78 1344.04,566.99 1357.58,548.96 1371.11,533.04 1384.65,518.76 1398.18,505.81 1411.72,746.70 1425.25,683.41 1438.79,642.91 1452.32,612.44 1465.86,587.78 1479.39,566.99 1492.93,548.96 1506.46,533.04 1520.00,518.76" fill="none" stroke="#27ae60" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="572.53" y1="130" x2="572.53" y2="790" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="9,8" />
+<text x="582.53" y="168" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#b91c1c">baseline failed at turn 29</text>
 <circle cx="1520.00" cy="253.03" r="6.5" fill="#f39c12" />
 <circle cx="1520.00" cy="518.76" r="6.5" fill="#27ae60" />
 <text x="1514.00" y="241.03" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#92400e">recap final: 17,961,775</text>
