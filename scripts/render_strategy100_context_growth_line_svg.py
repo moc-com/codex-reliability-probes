@@ -5,7 +5,7 @@ This script reads:
   data/strategy100/{baseline,recap,snapshot}/per_turn.tsv
 
 And writes:
-  assets/figures/strategy100_context_growth_line_20260211.svg
+  assets/figures/strategy100_context_growth_line_20260212_v2.svg
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_ROOT = ROOT / "data" / "strategy100"
-OUT = ROOT / "assets" / "figures" / "strategy100_context_growth_line_20260211.svg"
+OUT = ROOT / "assets" / "figures" / "strategy100_context_growth_line_20260212_v2.svg"
 
 WIDTH = 1800
 HEIGHT = 1100
